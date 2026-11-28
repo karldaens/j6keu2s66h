@@ -1,0 +1,22 @@
+name: Rename spider-v18.1 to a-v18.1.png
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename file and verify md5
+        run: |
+          git config user.name "karldaens"
+          git config user.email "karldaens@users.noreply.github.com"
+          git mv spider-v18.1.jar a-v18.1.png
+          md5sum a-v18.1.png
+          test "$(md5sum a-v18.1.png | cut -d' ' -f1)" = "8b78b8881e9685530d25b2f8b8240ff4"
+          git commit -m "Rename spider-v18.1.jar to a-v18.1.png"
+          git push
