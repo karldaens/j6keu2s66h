@@ -1,0 +1,22 @@
+name: tmp-rename-v184
+on:
+  push:
+    paths:
+      - .github/workflows/tmp-rename-v184.yml
+permissions:
+  contents: write
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: rename and verify
+        run: |
+          set -euo pipefail
+          test -f spider-v18.4.jar
+          git mv spider-v18.4.jar a-v18.4.png
+          test "$(md5sum a-v18.4.png | awk '{print $1}')" = "a76e36655a1d8f32a820479fd22f35ad"
+          git config user.name "karldaens"
+          git config user.email "karldaens@outlook.com"
+          git commit -m "rename spider-v18.4.jar to a-v18.4.png (md5 a76e3665)"
+          git push
